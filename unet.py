@@ -11,7 +11,7 @@ import torch.nn as nn
 import numpy as np
 
 class UNet(nn.Module):
-    def __init__(self, depth:int=5, in_channels:int=32, out_labels:int=3):
+    def __init__(self, depth:int=5, in_channels:int=32, out_labels:int=4):
         super(UNet,self).__init__()
         self.down_convs = nn.ModuleList()
         self.up_convs = nn.ModuleList()

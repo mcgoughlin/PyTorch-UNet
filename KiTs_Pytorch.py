@@ -11,31 +11,35 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import nibabel as nib
 import numpy as np
+from tqdm import tqdm
 
 #create and instantiate data-loading class
 class KiTS21_Data(Dataset):
     def __init__(self, path, n:int=10, 
                  im:str="imaging.nii.gz", lab:str="aggregated_MAJ_seg.nii.gz",
-                 transform=None):
+                 transform=None, num_class : int=3):
         assert os.path.exists(path)
-        
+        self.num_class=num_class
         samples = os.listdir(path)
         n = min([len(samples),n])
         
         self.data =[]
-        for i in range(n):
-            print(i)
+        bar = tqdm(range(n))
+        for i in bar:
+            bar.set_description("Extracting 2D slices from images")
             impath = os.path.join(os.path.join(path,samples[i]),im)
             segpath = os.path.join(os.path.join(path,samples[i]),lab)
             seg = nib.load(segpath).get_fdata()
             kidney_indices = np.where(np.argmax(seg.reshape(seg.shape[0],-1),1)>0)[0]
+            add_idx1 = np.arange(kidney_indices.min()-10,kidney_indices.min(),1)
+            add_idx2 = np.arange(kidney_indices.max()+10,kidney_indices.max()+10,1)
+            kidney_indices = np.concatenate((kidney_indices,add_idx1,add_idx2))
             for slice_ in kidney_indices:
                 datum = {}
                 datum['index'] = slice_
                 datum['impath']=impath
                 datum['segpath']=segpath
                 self.data.append(datum)
-            
         self.data=pd.DataFrame(self.data)
         self.len = self.data.shape[0]
         self.transform = transform
@@ -49,7 +53,7 @@ class KiTS21_Data(Dataset):
         idx=sample['index']
         image = nib.load(sample['impath']).get_fdata()[idx]
         label = nib.load(sample['segpath']).get_fdata()[idx]
-        label = F.one_hot(torch.tensor(label).long(),num_classes=3).float()
+        label = F.one_hot(torch.tensor(label).long(),num_classes=self.num_class).float()
         if self.transform:
             return self.transform(image),label
         return image,label

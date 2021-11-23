@@ -12,6 +12,9 @@ import torch.nn as nn
 
 #need to correctly switch between .train() and .eval() in train-time
 #to turn off the effects of dropout (among other things like batch normalisation)
+
+init = torch.nn.init.kaiming_uniform_
+
 class deconv(nn.Module):
     def __init__(self,in_c,out_c,drop=0.6):
       super(deconv,self).__init__()
@@ -20,8 +23,11 @@ class deconv(nn.Module):
       
       self.conv1 = nn.Conv2d(in_channels=in_c, out_channels=out_c,
                              kernel_size=3)
+      
       self.conv2 = nn.Conv2d(in_channels=out_c, out_channels=out_c,
                              kernel_size=3, stride=2)
+      init(self.conv1.weight)
+      init(self.conv2.weight)
       self.drop = nn.Dropout(p=drop)
     
     def forward(self,in_):
@@ -39,6 +45,8 @@ class upconv(nn.Module):
                              kernel_size=3)
       self.conv2 = nn.Conv2d(in_channels=out_c, out_channels=out_c,
                              kernel_size=3)
+      init(self.conv1.weight)
+      init(self.conv2.weight)
       self.drop = nn.Dropout(p=drop)
       self.up = nn.Upsample(scale_factor = 2, mode = 'bilinear',align_corners=False)
     
@@ -62,10 +70,13 @@ class outconv(nn.Module):
                  kernel_size=3)
         self.out2 = nn.Conv2d(in_channels=in_c, out_channels=out_c,
                  kernel_size=3)
+        init(self.out1.weight)
+        init(self.out2.weight)
         self.drop = nn.Dropout(p=drop)
         
     def forward(self,x):
         x = self.out1(self.pad(self.up(x)))
         x = self.out2(self.pad(self.drop(x)))
         x = torch.transpose(x,1,3)
-        return self.actv(x)
+        # return self.actv(x)
+        return x
