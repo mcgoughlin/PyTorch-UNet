@@ -12,7 +12,7 @@ import torch.nn as nn
 import time
 
 
-path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
+path = '@@@@@@@@@'
 kits = kpt.KiTS21_Data(path,n=1)
 kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
 
