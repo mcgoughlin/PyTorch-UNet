@@ -16,10 +16,11 @@ import matplotlib.pyplot as plt
 import os
 from tqdm import tqdm
 
+
 labels = 4
 trained = False
-path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
-kits = kpt.KiTS21_Data(path,n=5,num_class=labels)
+path = '@@@@@@@@@'
+kits = kpt.KiTS21_Data(path,n=1)
 kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
 model_loc = os.path.join(os.getcwd(),'unet')
 print("")
@@ -52,6 +53,7 @@ for epoch in range(1):
         opt.zero_grad()
         output.backward()
         opt.step()
+
         costs.append(float(output/scaler))
     torch.save(model,model_loc)
         
