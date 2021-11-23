@@ -17,5 +17,5 @@ This script constructs an instance of unet and trains it using an instance of Ki
 #### unet
 This is an example pickle file, holding some partially-trained unet weights, that can be loaded into unet.py
 
-#### data.csv
-This is an example KiTS-Pytorch dataset, showing the schema of the pandas dataframe used to hold the filenames and slice indices that are used during training.
+#### data.csv their
+This is an example KiTS-Pytorch dataset, showing the schema of the pandas dataframe used to hold the filenames of training data, and their slice indices.
