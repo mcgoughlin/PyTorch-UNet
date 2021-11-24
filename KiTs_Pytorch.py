@@ -24,9 +24,9 @@ class KiTS21_Data(Dataset):
         n = min([len(samples),n])
         
         self.data =[]
-        bar = tqdm(range(n))
-        for i in bar:
-            bar.set_description("Extracting 2D slices from images")
+        # bar = tqdm(range(n))
+        for i in range(n):
+            # bar.set_description("Extracting 2D slices from images")
             impath = os.path.join(os.path.join(path,samples[i]),im)
             segpath = os.path.join(os.path.join(path,samples[i]),lab)
             seg = nib.load(segpath).get_fdata()

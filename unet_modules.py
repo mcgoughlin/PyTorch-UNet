@@ -77,6 +77,5 @@ class outconv(nn.Module):
     def forward(self,x):
         x = self.out1(self.pad(self.up(x)))
         x = self.out2(self.pad(self.drop(x)))
-        x = torch.transpose(x,1,3)
         # return self.actv(x)
         return x
