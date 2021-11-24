@@ -11,7 +11,6 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import nibabel as nib
 import numpy as np
-from tqdm import tqdm
 
 #create and instantiate data-loading class
 class KiTS21_Data(Dataset):
@@ -24,7 +23,6 @@ class KiTS21_Data(Dataset):
         n = min([len(samples),n])
         
         self.data =[]
-        # bar = tqdm(range(n))
         for i in range(n):
             # bar.set_description("Extracting 2D slices from images")
             impath = os.path.join(os.path.join(path,samples[i]),im)
