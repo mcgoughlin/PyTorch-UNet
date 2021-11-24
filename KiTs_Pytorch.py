@@ -17,7 +17,7 @@ from tqdm import tqdm
 class KiTS21_Data(Dataset):
     def __init__(self, path, n:int=10, 
                  im:str="imaging.nii.gz", lab:str="aggregated_MAJ_seg.nii.gz",
-                 transform=None, num_class : int=3):
+                 transform=None, num_class : int=4):
         assert os.path.exists(path)
         self.num_class=num_class
         samples = os.listdir(path)

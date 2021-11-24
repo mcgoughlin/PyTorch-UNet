@@ -14,13 +14,12 @@ import torch.nn as nn
 import time
 import matplotlib.pyplot as plt
 import os
-from tqdm import tqdm
 
 
-labels = 
-#change filepath to KiTS data folder 'kits/kits/data' containing many sub directories named 'case_00000, case_00001..' etc.
-path = '@@@@@@@@@'
-kits = kpt.KiTS21_Data(path,n=1)
+labels = 4
+#change path variable to KiTS data folder ending in 'kits/data' containing many sub directories named 'case_00000, case_00001..' etc.
+path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
+kits = kpt.KiTS21_Data(path,n=5,num_class=labels)
 kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
 model_loc = os.path.join(os.getcwd(),'unet')
 
@@ -50,8 +49,8 @@ for epoch in range(3):
         opt.zero_grad()
         output.backward()
         opt.step()
-        costs.append(float(output/(512*512*4)))
-        print(output/(512*512*4))
+        costs.append(float(output/(512*512)))
+        print("Loss per pixel: %.5f" % float(output/(512*512)))
     torch.save(model,model_loc)
         
 plt.plot(costs)
