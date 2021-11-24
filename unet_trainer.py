@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 
 labels = 
-#insert filepath to KiTS data folder 'kits/kits/data' containing many sub directories named 'case_00000, case_00001..' etc.
+#change filepath to KiTS data folder 'kits/kits/data' containing many sub directories named 'case_00000, case_00001..' etc.
 path = '@@@@@@@@@'
 kits = kpt.KiTS21_Data(path,n=1)
 kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
