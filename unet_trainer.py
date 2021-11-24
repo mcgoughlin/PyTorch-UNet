@@ -16,9 +16,10 @@ import matplotlib.pyplot as plt
 import os
 from tqdm import tqdm
 
+
 labels = 4
-path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
-kits = kpt.KiTS21_Data(path,n=10,num_class=labels)
+path = '@@@@@@@@@'
+kits = kpt.KiTS21_Data(path,n=1)
 kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
 model_loc = os.path.join(os.getcwd(),'unet')
 
@@ -53,7 +54,3 @@ for epoch in range(3):
     torch.save(model,model_loc)
         
 plt.plot(costs)
-# count_dict ={}
-# for name, param in model.named_parameters():
-#     if 'weight' in name:
-#         count_dict[name] = param

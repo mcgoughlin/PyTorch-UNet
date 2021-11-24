@@ -76,7 +76,7 @@ def train(x,y,model,optimizer,loss_function,epochs=10):
     return cost
 
 if __name__ == "__main__":
-    path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
+    path = '@@@@@@'
     dataset = KiTS21_Data(path,n=1)
     print(dataset[0])
     trainloader = DataLoader(dataset=dataset,batch_size=None,shuffle=True)
