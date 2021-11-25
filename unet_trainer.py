@@ -19,8 +19,8 @@ import os
 labels = 4
 #change path variable to KiTS data folder ending in 'kits/data' containing many sub directories named 'case_00000, case_00001..' etc.
 path = 'C:\\Users\\mcgoug01\\OneDrive - CRUK Cambridge Institute\\Python Scripts\\kits21\\kits21\\data'
-kits = kpt.KiTS21_Data(path,n=5,num_class=labels)
-kitsloader = DataLoader(dataset=kits,batch_size=2,shuffle=True)
+kits = kpt.KiTS21_Data(path,n=10,num_class=labels)
+kitsloader = DataLoader(dataset=kits,batch_size=3,shuffle=True)
 model_loc = os.path.join(os.getcwd(),'unet')
 
 if os.path.exists(model_loc): 
@@ -49,8 +49,20 @@ for epoch in range(3):
         opt.zero_grad()
         output.backward()
         opt.step()
-        costs.append(float(output/(512*512)))
-        print("Loss per pixel: %.5f" % float(output/(512*512)))
+        costs.append(float(output))
+        print("Loss: %.5f" % float(output))
     torch.save(model,model_loc)
         
 plt.plot(costs)
+
+index = 1
+pred = model(x.reshape(x.shape[0],x.shape[1],x.shape[2],-1).float())
+plt.subplot(131)
+plt.xlabel("input image")
+plt.imshow(x[index])
+plt.subplot(132)
+plt.xlabel("prediction")
+plt.imshow(torch.transpose(pred,1,3)[index].argmax(-1))
+plt.subplot(133)
+plt.xlabel("target")
+plt.imshow(torch.transpose(y,1,3)[index].argmax(-1))
